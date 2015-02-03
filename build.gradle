@@ -8,4 +8,9 @@ repositories {
   mavenCentral()
 }
 
-
+configurations {
+    sql
+}
+dependencies {
+    sql 'mysql:mysql-connector-java:5.1.16'
+}
