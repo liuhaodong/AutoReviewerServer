@@ -7,17 +7,27 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
+/**
+ * @author haodongl
+ * Test Server
+ */
 public class TestServer {
-	public static void main(String[] args) throws IOException {
-		ServerSocket serverSocket = new ServerSocket(8000);
+	
+	private static final int PORT = 8000;
+	
+	/**
+	 * @param args some args.
+	 * @throws IOException some exceptions.
+	 */
+	public static void main(final String[] args) throws IOException {
+		ServerSocket serverSocket = new ServerSocket(PORT);
 		while (true) {
-			//System.out.print(serverSocket.getLocalPort());
+			// System.out.print(serverSocket.getLocalPort());
 			Socket clientSocket = serverSocket.accept();
-			
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), 
-                    true); 
-			
+
+			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
+					true);
+
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					clientSocket.getInputStream()));
 
