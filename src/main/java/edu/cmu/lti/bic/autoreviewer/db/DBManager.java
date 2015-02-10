@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import edu.cmu.lti.bic.autoreviewer.config.ServerConfiguration;
 
 /**
- * @author haodongl
- * Helper class to manage DB manipulation.
+ * @author haodongl Helper class to manage DB manipulation.
  */
 public class DBManager {
 
@@ -20,6 +20,12 @@ public class DBManager {
 	private String url;
 	private String username;
 	private String password;
+
+	public DBManager() {
+		url = ServerConfiguration.DEFAULT_DB_URL;
+		username = ServerConfiguration.DEFAULT_DB_USERNAME;
+		password = ServerConfiguration.DEFAULT_DB_PASSWORD;
+	}
 
 	/**
 	 * @param pURL
@@ -92,9 +98,10 @@ public class DBManager {
 			return null;
 		}
 	}
-	
+
 	/**
-	 * @param pStatement 
+	 * @param pStatement
+	 *            statement
 	 * @return result.
 	 */
 	public final int executeSQLUpdate(final String pStatement) {
@@ -106,7 +113,9 @@ public class DBManager {
 		}
 
 		try {
-			this.statement = connection.createStatement();
+			if (this.statement == null) {
+				this.statement = connection.createStatement();
+			}
 			result = statement.executeUpdate(pStatement);
 			return result;
 		} catch (SQLException e) {
