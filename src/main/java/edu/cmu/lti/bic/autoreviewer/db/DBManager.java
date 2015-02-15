@@ -21,6 +21,9 @@ public class DBManager {
 	private String username;
 	private String password;
 
+	/**
+	 * Default constructor using default configurations.
+	 */
 	public DBManager() {
 		url = ServerConfiguration.DEFAULT_DB_URL;
 		username = ServerConfiguration.DEFAULT_DB_USERNAME;

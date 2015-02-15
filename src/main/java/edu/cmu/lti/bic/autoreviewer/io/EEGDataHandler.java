@@ -8,12 +8,19 @@ import java.net.Socket;
 import edu.cmu.lti.bic.autoreviewer.config.ServerConfiguration;
 import edu.cmu.lti.bic.autoreviewer.db.DBManager;
 
+/**
+ * @author haodongl This class handles the incoming eeg data from mobile.
+ */
 public class EEGDataHandler implements Runnable {
 
 	private Socket socket;
 
-	DBManager dbManager;
+	private DBManager dbManager;
 
+	/**
+	 * @param pSocket
+	 *            socket connecting client.
+	 */
 	public EEGDataHandler(Socket pSocket) {
 		this.socket = pSocket;
 		dbManager = new DBManager();
@@ -41,6 +48,11 @@ public class EEGDataHandler implements Runnable {
 		}
 	}
 
+	/**
+	 * @param eegData
+	 *            EEG input as string.
+	 * @return Array of parsed eeg data.
+	 */
 	private double[] parseEEGData(String eegData) {
 
 		String[] eegArray = eegData
@@ -52,8 +64,12 @@ public class EEGDataHandler implements Runnable {
 
 	}
 
+	/**
+	 * This method stores eeg data into db.
+	 * @param eegData Raw eeg data string.
+	 */
 	private void storeEEGData(String eegData) {
-		
+
 		System.out.println(eegData);
 		String[] eegArray = eegData
 				.split(ServerConfiguration.DEFAULT_EEG_DATA_DELIMITER);

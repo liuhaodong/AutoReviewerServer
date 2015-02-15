@@ -1,5 +1,9 @@
 package edu.cmu.lti.bic.autoreviewer.config;
 
+/**
+ * @author haodongl
+ * Configuration class for server.
+ */
 public final class ServerConfiguration {
 	
 	
