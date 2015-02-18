@@ -10,7 +10,7 @@ import edu.cmu.lti.bic.autoreviewer.config.ServerConfiguration;
  * @author haodongl
  * 
  */
-public class EEGDataLisenter implements Runnable {
+public class EEGDataListener implements Runnable {
 
 	private int port;
 
@@ -20,7 +20,7 @@ public class EEGDataLisenter implements Runnable {
 	/**
 	 * @throws IOException 
 	 */
-	public EEGDataLisenter() throws IOException {
+	public EEGDataListener() throws IOException {
 		this.port = ServerConfiguration.DEFAULT_PORT;
 		listener = new ServerSocket(this.port);
 	}
@@ -29,7 +29,7 @@ public class EEGDataLisenter implements Runnable {
 	 * @param pPort Port listening to eeg data.
 	 * @throws IOException 
 	 */
-	public EEGDataLisenter(int pPort) throws IOException {
+	public EEGDataListener(int pPort) throws IOException {
 		this.port = pPort;
 		listener = new ServerSocket(this.port);
 	}
