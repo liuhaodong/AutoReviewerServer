@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /***
- * Data structure for result of movie review
- * @author jhe 
- * 
+ * Data structure for classified data
+ * @author jhe
+ *
  */
-public class ReviewResult {
+public class ClassifiedData {
 	private ArrayList<Date> times;
-	private ArrayList<String> discriptions;
 	private ArrayList<Float> scores;
 	
 	/**
@@ -26,27 +25,18 @@ public class ReviewResult {
 		this.times = mTimes;
 	}
 	/**
-	 * @return the discriptions
-	 */
-	public ArrayList<String> getDiscriptions() {
-		return discriptions;
-	}
-	/**
-	 * @param mDiscriptions the discriptions to set
-	 */
-	public void setDiscriptions(ArrayList<String> mDiscriptions) {
-		this.discriptions = mDiscriptions;
-	}
-	/**
 	 * @return the scores
 	 */
 	public ArrayList<Float> getScores() {
 		return scores;
 	}
-	/**
-	 * @param mScores the scores to set
+	/***
+	 * 
+	 * @param mScores scores
 	 */
 	public void setScores(ArrayList<Float> mScores) {
 		this.scores = mScores;
 	}
+	
+	
 }

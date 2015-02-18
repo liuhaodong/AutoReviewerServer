@@ -3,6 +3,7 @@ package edu.cmu.lti.bic.autoreviewer.driver;
 import java.io.IOException;
 
 import edu.cmu.lti.bic.autoreviewer.io.EEGDataListener;
+import edu.cmu.lti.bic.autoreviewer.io.EEGReviewListener;
 
 /**
  * @author haodongl
@@ -18,7 +19,8 @@ public class RunServer {
 		// TODO Auto-generated method stub
 		EEGDataListener eegDataLisenter = new EEGDataListener();
 		new Thread(eegDataLisenter).start();
-		
+		EEGReviewListener reviewListener = new EEGReviewListener();
+		new Thread(reviewListener).start();
 	}
 
 }

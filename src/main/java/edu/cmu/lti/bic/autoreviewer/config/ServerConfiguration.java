@@ -8,6 +8,7 @@ public final class ServerConfiguration {
 	
 	
 	public static final int DEFAULT_PORT = 5000;
+	public static final int DEFAULT_REVIEW_PORT = 7000;
 	
 	public static final String DEFAULT_DB_URL = "jdbc:mysql://localhost:3306/testdb";
 	public static final String DEFAULT_DB_USERNAME = "testuser";
