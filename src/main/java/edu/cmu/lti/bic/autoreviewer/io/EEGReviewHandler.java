@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,7 +32,7 @@ public class EEGReviewHandler implements Runnable {
 
 	private Reviewer mReviewer;
 
-	private Classifier mclassifier;
+	private Classifier mClassifier;
 
 	/**
 	 * @param pSocket
@@ -41,7 +43,7 @@ public class EEGReviewHandler implements Runnable {
 		dbManager = new DBManager();
 		tmManager = new TimelineManager();
 		mReviewer = new Reviewer();
-		mclassifier = new Classifier();
+		mClassifier = new Classifier();
 	}
 
 	@Override
@@ -52,11 +54,11 @@ public class EEGReviewHandler implements Runnable {
 
 			String line;
 			Arguments argu = new Arguments();
-			while ((line = inStream.readLine()) != null) {
+			if ((line = inStream.readLine()) != null) {
 				this.parseArgu(line, argu);
 			}
 
-			mclassifier.setClassifierArgument(argu);
+			mClassifier.setClassifierArgument(argu);
 
 			// here  comment
 			OutputStream out = this.socket.getOutputStream();
@@ -89,20 +91,43 @@ public class EEGReviewHandler implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Input Format Wrong For Parsing");
+			e.printStackTrace();
 		}
 	}
 
 	/***
 	 * parse arguments from socket line. arguments should be in
-	 * "start: 2015-2-7..." "end: 2015-3-6.." "movie: gozzila" format
+	 * "start: 2015-02-20 13:48:14#end: 2015-02-20 13:48:14#movie: gozzila" format
 	 * 
 	 * @param line
 	 *            parsed line
 	 * @param arg
 	 *            argument ds
+	 * @throws ParseException throw exception when row is not in assumed type
 	 */
-	public void parseArgu(String line, Arguments arg) {
+	public void parseArgu(String line, Arguments arg) throws ParseException {
 		// TODO
-
+		String[] args = line.split("#");
+		Date startTime = null;
+		Date endTime = null;
+		String movieName = null;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (String str: args) {
+			if (str.contains("start:")) {
+				String time = str.replaceAll("start:", "").trim();
+				startTime = df.parse(time);
+			} else if (str.contains("end:")) {
+				String time = str.replaceAll("end:", "").trim();
+				endTime = df.parse(time);
+			} else if (str.contains("movie:")) {
+				movieName = str.replaceAll("movie:", "").trim();
+			}
+		}
+		if (startTime != null && endTime != null && movieName != null) {
+			arg.setArguments(startTime, endTime, movieName);
+		}
 	}
 }
