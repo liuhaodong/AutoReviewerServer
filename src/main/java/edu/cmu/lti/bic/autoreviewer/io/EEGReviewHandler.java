@@ -13,6 +13,8 @@ import java.util.Date;
 
 import edu.cmu.lti.bic.autoreviewer.db.DBManager;
 import edu.cmu.lti.bic.autoreviewer.ds.Arguments;
+import edu.cmu.lti.bic.autoreviewer.ds.ClassifiedData;
+import edu.cmu.lti.bic.autoreviewer.ds.Timeline;
 import edu.cmu.lti.bic.autoreviewer.function.Classifier;
 import edu.cmu.lti.bic.autoreviewer.function.Reviewer;
 import edu.cmu.lti.bic.autoreviewer.function.TimelineManager;
@@ -58,8 +60,10 @@ public class EEGReviewHandler implements Runnable {
 				this.parseArgu(line, argu);
 			}
 
-			mClassifier.setClassifierArgument(argu);
-
+			mClassifier.run(argu);
+			
+			Timeline myTime = tmManager.getTimeline(argu.getMovie());
+			ClassifiedData classifiedData= mClassifier.getClassifiedRst(argu);
 			// here  comment
 			OutputStream out = this.socket.getOutputStream();
 			DataOutputStream dos = new DataOutputStream(out);
@@ -111,12 +115,15 @@ public class EEGReviewHandler implements Runnable {
 	public void parseArgu(String line, Arguments arg) throws ParseException {
 		// TODO
 		String[] args = line.split("#");
+		int subjectId = 0;
 		Date startTime = null;
 		Date endTime = null;
 		String movieName = null;
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (String str: args) {
-			if (str.contains("start:")) {
+			if (str.contains("subject:")) {
+				subjectId = Integer.parseInt(str.replaceAll("subject:", "").trim());
+			} else if (str.contains("start:")) {
 				String time = str.replaceAll("start:", "").trim();
 				startTime = df.parse(time);
 			} else if (str.contains("end:")) {
@@ -127,7 +134,7 @@ public class EEGReviewHandler implements Runnable {
 			}
 		}
 		if (startTime != null && endTime != null && movieName != null) {
-			arg.setArguments(startTime, endTime, movieName);
+			arg.setArguments(subjectId, startTime, endTime, movieName);
 		}
 	}
 }

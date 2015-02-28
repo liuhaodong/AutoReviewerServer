@@ -5,7 +5,7 @@ package edu.cmu.lti.bic.autoreviewer.config;
  */
 public final class ServerConfiguration {
 
-	public static final String name = "event_description";
+	public static final String TABLE_NAME = "EEG_DATA";
 	public static final int DEFAULT_PORT = 5000;
 	public static final int DEFAULT_REVIEW_PORT = 7000;
 
