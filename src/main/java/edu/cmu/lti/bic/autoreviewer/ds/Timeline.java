@@ -9,31 +9,29 @@ import java.util.Date;
  * 
  */
 public class Timeline {
-	private ArrayList<Date> times;
-	private ArrayList<String> discriptions;
 	
-	/**
-	 * @return the times
+	private ArrayList<Event> events;
+	
+	/***
+	 * constructor.
 	 */
-	public ArrayList<Date> getTimes() {
-		return times;
+	public Timeline() {
+		events = new ArrayList<Event>();
 	}
+
 	/**
-	 * @param mTimes the times to set
+	 * @return the events
 	 */
-	public void setTimes(ArrayList<Date> mTimes) {
-		this.times = mTimes;
+	public ArrayList<Event> getEvents() {
+		return events;
 	}
+
 	/**
-	 * @return the discriptions
+	 * @param events the events to set
 	 */
-	public ArrayList<String> getDiscriptions() {
-		return discriptions;
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
 	}
-	/**
-	 * @param mDiscriptions the discriptions to set
-	 */
-	public void setDiscriptions(ArrayList<String> mDiscriptions) {
-		this.discriptions = mDiscriptions;
-	}
+	
+	
 }
