@@ -1,17 +1,20 @@
 package edu.cmu.lti.bic.autoreviewer.ds;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /***
  * Data structure for Timeline
- * @author jhe 
+ * 
+ * @author jhe
  * 
  */
 public class Timeline {
-	
+
+	/**
+	 * hehe
+	 */
 	private ArrayList<Event> events;
-	
+
 	/***
 	 * constructor.
 	 */
@@ -27,11 +30,11 @@ public class Timeline {
 	}
 
 	/**
-	 * @param events the events to set
+	 * @param pEvents
+	 *            the events to set
 	 */
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
+	public void setEvents(ArrayList<Event> pEvents) {
+		this.events = pEvents;
 	}
-	
-	
+
 }

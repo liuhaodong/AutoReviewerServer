@@ -1,5 +1,10 @@
 package edu.cmu.lti.bic.autoreviewer.config;
 
+/**
+ * DB configuration.
+ * @author jhe
+ *
+ */
 public class DBTableConfig {
 	
 	public static final String MOVIE_TABLE_NAME = "movie_info";

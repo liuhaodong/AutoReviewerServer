@@ -3,6 +3,7 @@ package edu.cmu.lti.bic.autoreviewer.function;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.cmu.lti.bic.autoreviewer.config.ServerConfiguration;
 import edu.cmu.lti.bic.autoreviewer.ds.ClassifiedData;
 import edu.cmu.lti.bic.autoreviewer.ds.Event;
 import edu.cmu.lti.bic.autoreviewer.ds.ReviewResult;
@@ -18,9 +19,9 @@ public class Reviewer {
 
 	private Timeline timeLine;
 	private ClassifiedData data;
-	private float HIGH_THREASHOLD = (float) 0.6;
-	private float LOW_THREASHOLD = (float) 0.3;
-	private int WINDOW_SIZE = 10;
+	private static final float HIGH_THREASHOLD = ServerConfiguration.DEFAULT_HIGH_VALUE;
+	private static final float LOW_THREASHOLD = ServerConfiguration.DEFAULT_LOW_VALUE;
+	private static final int WINDOW_SIZE = ServerConfiguration.DEFAULT_WINDOW_SIZE;
 
 	/***
 	 * set arguments for reviewer.
@@ -70,9 +71,13 @@ public class Reviewer {
 
 	/***
 	 * generate review with different score average.
-	 * @param rvwRst review result.
-	 * @param avg average.
-	 * @param curEvent current event.
+	 * 
+	 * @param rvwRst
+	 *            review result.
+	 * @param avg
+	 *            average.
+	 * @param curEvent
+	 *            current event.
 	 */
 	public void generateReview(ReviewResult rvwRst, float avg, Event curEvent) {
 		String highDescription = "User is exciting when :";

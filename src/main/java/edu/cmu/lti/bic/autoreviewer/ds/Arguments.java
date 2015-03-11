@@ -14,12 +14,13 @@ public class Arguments {
 	private Date endTime;
 	private String movie;
 	
-	/***
-	 * set argument.
-	 * @param subjectId subject for movie
-	 * @param mStart start time 
-	 * @param mEnd end time
-	 * @param mMovie movie name
+
+	/**
+	 * 
+	 * @param mSubId 
+	 * @param mStart 
+	 * @param mEnd 
+	 * @param mMovie 
 	 */
 	public final void setArguments(int mSubId, Date mStart, Date mEnd, String mMovie) {
 		this.subjectId = mSubId;
