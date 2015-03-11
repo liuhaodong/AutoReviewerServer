@@ -75,7 +75,7 @@ public class EEGDataHandler implements Runnable {
 				.split(ServerConfiguration.DEFAULT_EEG_DATA_DELIMITER);
 		int subjectID = Integer
 				.parseInt(eegArray[ServerConfiguration.DEFAULT_SUBJECTID_INDEX]);
-		String subjectName = eegArray[ServerConfiguration.DEFAULT_STARTTIME_INDEX];
+		String subjectName = eegArray[ServerConfiguration.DEFUALT_SUBJECTNAME_INDEX];
 		String startDate = eegArray[ServerConfiguration.DEFAULT_STARTTIME_INDEX];
 		String endDate = eegArray[ServerConfiguration.DEFAULT_ENDTIME_INDEX];
 		String sensor = eegArray[ServerConfiguration.DEFAULT_SENSOR_INDEX];

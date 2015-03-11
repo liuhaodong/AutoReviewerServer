@@ -62,6 +62,8 @@ public class EEGReviewHandler implements Runnable {
 				this.parseArgu(line, argu);
 			}
 
+			
+			
 			mClassifier.run(argu);
 
 			Timeline myTime = tmManager.getTimeline(argu.getMovie());
@@ -122,10 +124,11 @@ public class EEGReviewHandler implements Runnable {
 		Date startTime = null;
 		Date endTime = null;
 		String movieName = null;
+		String subjectName = "";
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (String str : args) {
-			if (str.contains("subject:")) {
-				subjectId = Integer.parseInt(str.replaceAll("subject:", "")
+			if (str.contains("subjectId:")) {
+				subjectId = Integer.parseInt(str.replaceAll("subjectId:", "")
 						.trim());
 			} else if (str.contains("start:")) {
 				String time = str.replaceAll("start:", "").trim();
@@ -135,10 +138,12 @@ public class EEGReviewHandler implements Runnable {
 				endTime = df.parse(time);
 			} else if (str.contains("movie:")) {
 				movieName = str.replaceAll("movie:", "").trim();
-			}
+			} else if(str.contains("subjectName:")){
+				subjectName = str.replaceAll("subjectName:","").trim();
+			} 
 		}
 		if (startTime != null && endTime != null && movieName != null) {
-			arg.setArguments(subjectId, startTime, endTime, movieName);
+			arg.setArguments(subjectId, startTime, endTime, movieName, subjectName);
 		}
 	}
 }

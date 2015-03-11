@@ -1,5 +1,9 @@
 package edu.cmu.lti.bic.autoreviewer.function;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -27,7 +31,29 @@ public class Classifier {
 	 *            args.
 	 */
 	public final void run(Arguments argu) {
+		String[] cmd = { "bash", "./start_classifier.sh" };
+		File workdir = new File("./apply_script.app/Contents/MacOS/");
+		String[] env = {};
+		try {
+			String errOutput = "";
+			Process process = Runtime.getRuntime().exec(cmd, env, workdir);
+			String s = "";
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					process.getInputStream()));
+			while ((s = br.readLine()) != null) {
+				s += s + "\n";
+			}
+			System.out.println(s);
 
+			BufferedReader br2 = new BufferedReader(new InputStreamReader(
+					process.getErrorStream()));
+			while (br2.ready() && (s = br2.readLine()) != null) {
+				errOutput += s;
+			}
+			System.out.println(errOutput);
+		} catch (IOException ex) {
+
+		}
 	}
 
 	/***
@@ -35,9 +61,10 @@ public class Classifier {
 	 * 
 	 * @param argu
 	 *            argument of classifier.
-	 * @throws ParseException some exception.
-	 * @throws SQLException 
-	 * @throws NumberFormatException 
+	 * @throws ParseException
+	 *             some exception.
+	 * @throws SQLException
+	 * @throws NumberFormatException
 	 * @return classified result
 	 */
 	public final ClassifiedData getClassifiedRst(Arguments argu)

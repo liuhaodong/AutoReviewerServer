@@ -2,31 +2,38 @@ package edu.cmu.lti.bic.autoreviewer.ds;
 
 import java.util.Date;
 
-
 /***
  * ds for arguments.
+ * 
  * @author jhe
  *
  */
 public class Arguments {
 	private int subjectId;
+	private String subjectName;
 	private Date startTime;
 	private Date endTime;
 	private String movie;
-	
 
 	/**
 	 * 
-	 * @param mSubId 
-	 * @param mStart 
-	 * @param mEnd 
-	 * @param mMovie 
+	 * @param mSubId
+	 * @param mStart
+	 * @param mEnd
+	 * @param mMovie
 	 */
-	public final void setArguments(int mSubId, Date mStart, Date mEnd, String mMovie) {
+	public final void setArguments(int mSubId, Date mStart, Date mEnd,
+			String mMovie, String pSubjectName) {
 		this.subjectId = mSubId;
 		this.startTime = mStart;
 		this.endTime = mEnd;
 		this.movie = mMovie;
+		this.subjectName = pSubjectName;
+	}
+
+	public Arguments(int mSubId, Date mStart, Date mEnd, String mMovie,
+			String pSubjectName) {
+		this.setArguments(mSubId, mStart, mEnd, mMovie, pSubjectName);
 	}
 
 	/**
@@ -56,4 +63,12 @@ public class Arguments {
 	public int getSubjectId() {
 		return subjectId;
 	}
+
+	/**
+	 * @return subject name.
+	 */
+	public String getSubjectName() {
+		return subjectName;
+	}
+
 }
