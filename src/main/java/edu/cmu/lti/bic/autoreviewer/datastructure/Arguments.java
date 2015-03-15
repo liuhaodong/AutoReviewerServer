@@ -1,4 +1,4 @@
-package edu.cmu.lti.bic.autoreviewer.ds;
+package edu.cmu.lti.bic.autoreviewer.datastructure;
 
 import java.util.Date;
 
@@ -22,7 +22,7 @@ public class Arguments {
 	 * @param mEnd
 	 * @param mMovie
 	 */
-	public final void setArguments(int mSubId, Date mStart, Date mEnd,
+	private void setArguments(int mSubId, Date mStart, Date mEnd,
 			String mMovie, String pSubjectName) {
 		this.subjectId = mSubId;
 		this.startTime = mStart;
@@ -30,6 +30,7 @@ public class Arguments {
 		this.movie = mMovie;
 		this.subjectName = pSubjectName;
 	}
+
 
 	public Arguments(int mSubId, Date mStart, Date mEnd, String mMovie,
 			String pSubjectName) {

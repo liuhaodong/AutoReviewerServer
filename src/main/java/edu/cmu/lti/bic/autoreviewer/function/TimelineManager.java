@@ -3,14 +3,12 @@ package edu.cmu.lti.bic.autoreviewer.function;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import edu.cmu.lti.bic.autoreviewer.config.DBTableConfig;
+import edu.cmu.lti.bic.autoreviewer.datastructure.Event;
+import edu.cmu.lti.bic.autoreviewer.datastructure.MovieEvent;
+import edu.cmu.lti.bic.autoreviewer.datastructure.Timeline;
 import edu.cmu.lti.bic.autoreviewer.db.DBManager;
-import edu.cmu.lti.bic.autoreviewer.ds.Event;
-import edu.cmu.lti.bic.autoreviewer.ds.MovieEvent;
-import edu.cmu.lti.bic.autoreviewer.ds.Timeline;
 
 /***
  * 
@@ -30,30 +28,39 @@ public class TimelineManager {
 	 * @throws ParseException
 	 *             exception for date parse.
 	 */
-	public Timeline getTimeline(String movieName) throws SQLException,
-			ParseException {
-		
+	public Timeline getTimeline(String movieName) {
+
 		String timeLineTableName = DBTableConfig.MOVIE_TABLE_NAME;
 		String movieColumn = DBTableConfig.MOVIE_TABLE_STRUCTURE[DBTableConfig.MOVIE_NAME_INDEX];
 		String start = DBTableConfig.MOVIE_TABLE_STRUCTURE[DBTableConfig.MOVIE_START_INDEX];
 		String end = DBTableConfig.MOVIE_TABLE_STRUCTURE[DBTableConfig.MOVIE_END_INDEX];
-		String description = DBTableConfig.MOVIE_TABLE_STRUCTURE[DBTableConfig.MOVIE_DISCIRPTION];
-		String query = "SELECT * FROM" + timeLineTableName + "WHERE" + movieColumn + "=" + movieName;
-		
+		String description = DBTableConfig.MOVIE_TABLE_STRUCTURE[DBTableConfig.MOVIE_DESCIRPTION];
+		String query = "SELECT * FROM " + timeLineTableName + " WHERE "
+				+ movieColumn + "='" + movieName+"';";
+
 		DBManager dbMger = new DBManager();
-		Timeline myTime = new Timeline();
-		ArrayList<Event> events = myTime.getEvents();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
+		dbMger.connectDB();
+
+		Timeline newTimeLine = new Timeline();
+
 		ResultSet rst = dbMger.executeSQLQuery(query);
-		while (rst.next()) {
-			Event curEvent = new MovieEvent();
-			curEvent.setStartTime(df.parse(rst.getString(start)));
-			curEvent.setEndTime(df.parse(rst.getString(end)));
-			curEvent.setDiscription(rst.getString(description));
-			events.add(curEvent);
+		try {
+			while (rst.next()) {
+				int eventStartTime = rst.getInt(start);
+				int eventEndTime = rst.getInt(end);
+				String eventDescription = rst.getString(description);
+
+				Event newEvent = new MovieEvent(eventStartTime, eventEndTime,
+						eventDescription);
+
+				newTimeLine.addEvent(newEvent);
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return myTime;
+		return newTimeLine;
 	}
 
 	/***

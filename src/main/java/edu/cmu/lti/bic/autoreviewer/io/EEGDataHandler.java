@@ -66,7 +66,9 @@ public class EEGDataHandler implements Runnable {
 
 	/**
 	 * This method stores eeg data into db.
-	 * @param eegData Raw eeg data string.
+	 * 
+	 * @param eegData
+	 *            Raw eeg data string.
 	 */
 	private void storeEEGData(String eegData) {
 
@@ -74,12 +76,12 @@ public class EEGDataHandler implements Runnable {
 		String[] eegArray = eegData
 				.split(ServerConfiguration.DEFAULT_EEG_DATA_DELIMITER);
 		int subjectID = Integer
-				.parseInt(eegArray[ServerConfiguration.DEFAULT_SUBJECTID_INDEX]);
-		String subjectName = eegArray[ServerConfiguration.DEFUALT_SUBJECTNAME_INDEX];
-		String startDate = eegArray[ServerConfiguration.DEFAULT_STARTTIME_INDEX];
-		String endDate = eegArray[ServerConfiguration.DEFAULT_ENDTIME_INDEX];
-		String sensor = eegArray[ServerConfiguration.DEFAULT_SENSOR_INDEX];
-		String rawData = eegArray[ServerConfiguration.DEFAULT_EEGRAW_INDEX];
+				.parseInt(eegArray[ServerConfiguration.INPUT_EEG_SUBJECTID_INDEX]);
+		String subjectName = eegArray[ServerConfiguration.INPUT_EEG_USERNAME_INDEX];
+		String startDate = eegArray[ServerConfiguration.INPUT_EEG_STARTTIME_INDEX];
+		String endDate = eegArray[ServerConfiguration.INPUT_EEG_ENDTIME_INDEX];
+		String sensor = eegArray[ServerConfiguration.INPUT_EEG_SENSOR_INDEX];
+		String rawData = eegArray[ServerConfiguration.INPUT_EEG_EEGRAW_INDEX];
 
 		StringBuilder statement = new StringBuilder();
 		statement

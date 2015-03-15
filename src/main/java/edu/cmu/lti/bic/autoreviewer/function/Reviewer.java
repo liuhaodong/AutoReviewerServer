@@ -2,12 +2,14 @@ package edu.cmu.lti.bic.autoreviewer.function;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import edu.cmu.lti.bic.autoreviewer.config.ServerConfiguration;
-import edu.cmu.lti.bic.autoreviewer.ds.ClassifiedData;
-import edu.cmu.lti.bic.autoreviewer.ds.Event;
-import edu.cmu.lti.bic.autoreviewer.ds.ReviewResult;
-import edu.cmu.lti.bic.autoreviewer.ds.Timeline;
+import edu.cmu.lti.bic.autoreviewer.datastructure.Arguments;
+import edu.cmu.lti.bic.autoreviewer.datastructure.ClassifiedData;
+import edu.cmu.lti.bic.autoreviewer.datastructure.Event;
+import edu.cmu.lti.bic.autoreviewer.datastructure.ReviewResult;
+import edu.cmu.lti.bic.autoreviewer.datastructure.Timeline;
 
 /***
  * 
@@ -16,84 +18,60 @@ import edu.cmu.lti.bic.autoreviewer.ds.Timeline;
  */
 
 public class Reviewer {
+	private Reviewer myReviewer;
 
-	private Timeline timeLine;
-	private ClassifiedData data;
 	private static final float HIGH_THREASHOLD = ServerConfiguration.DEFAULT_HIGH_VALUE;
 	private static final float LOW_THREASHOLD = ServerConfiguration.DEFAULT_LOW_VALUE;
 	private static final int WINDOW_SIZE = ServerConfiguration.DEFAULT_WINDOW_SIZE;
 
-	/***
-	 * set arguments for reviewer.
-	 * 
-	 * @param mTime
-	 *            timeline specified.
-	 * @param mData
-	 *            classified data specified
-	 */
-	public final void setReviewArgument(final Timeline mTime,
-			final ClassifiedData mData) {
-		this.timeLine = mTime;
-		this.data = mData;
+	private Reviewer() {
+
 	}
 
-	/***
-	 * use timeline and classified data to generate review result.
-	 * 
-	 * @return proceded review result
-	 */
-	public final ReviewResult run() {
-		ReviewResult reviewRst = new ReviewResult();
-		ArrayList<Date> times = data.getTimes();
-		ArrayList<Float> scores = data.getScores();
-		int timeLineIdx = 0;
-		int dataTimeIdx = 0;
-		while (timeLineIdx < timeLine.getEvents().size()
-				&& dataTimeIdx < data.getTimes().size()) {
-			Event curEvent = timeLine.getEvents().get(timeLineIdx);
-			float sum = (float) 0;
-			int num = 0;
-			while (dataTimeIdx < data.getTimes().size()
-					&& data.getTimes().get(dataTimeIdx)
-							.before(curEvent.getEndTime())) {
-				if (data.getTimes().get(dataTimeIdx)
-						.after(curEvent.getStartTime())) {
-					sum += data.getScores().get(dataTimeIdx);
-					num++;
-				}
-				dataTimeIdx++;
+	public Reviewer getReviewer() {
+		if (myReviewer == null) {
+			myReviewer = new Reviewer();
+		}
+		return myReviewer;
+	}
+
+	public static ReviewResult generateReview(Timeline pTimeline,
+			ClassifiedData pData, Arguments pArg) {
+
+		ReviewResult reviewResult = new ReviewResult(pArg.getMovie(),
+				pArg.getSubjectName());
+
+		List<Event> timeLineEvents = pTimeline.getEvents();
+
+		String engaged = "The user was interested in the plot that: ";
+		String notEngaged = "The user was not interested in the plot that: ";
+		String mediocre = "The user didn't have strong feeling for the plot that: ";
+
+		int engageSum = 0;
+
+		for (Event tmpEvent : timeLineEvents) {
+			String eventDescription = tmpEvent.getDescription();
+			int eventStartTime = tmpEvent.getStartTime();
+			int eventEndTime = tmpEvent.getEndTime();
+			double tmpScore = pData.getEngagePercentage(eventStartTime,
+					eventEndTime);
+
+			if (tmpScore > HIGH_THREASHOLD) {
+				reviewResult
+						.addReviewSegment(engaged + eventDescription + "$$");
+				engageSum++;
+			} else if (tmpScore < LOW_THREASHOLD) {
+				reviewResult.addReviewSegment(notEngaged + eventDescription
+						+ "$$");
+			} else {
+				reviewResult.addReviewSegment(mediocre + eventDescription
+						+ "$$");
 			}
-			this.generateReview(reviewRst, sum / (float) num, curEvent);
-			timeLineIdx++;
-		}
-		return reviewRst;
-	}
 
-	/***
-	 * generate review with different score average.
-	 * 
-	 * @param rvwRst
-	 *            review result.
-	 * @param avg
-	 *            average.
-	 * @param curEvent
-	 *            current event.
-	 */
-	public void generateReview(ReviewResult rvwRst, float avg, Event curEvent) {
-		String highDescription = "User is exciting when :";
-		String midDescription = "User is with no strong emotion when :";
-		String lowDescription = "User feels boring when :";
+			reviewResult.setReviewScore(pData.getTotalEngagePercentage());
 
-		rvwRst.getTimes().add(curEvent.getStartTime());
-		if (avg > HIGH_THREASHOLD) {
-			rvwRst.getDiscriptions().add(
-					highDescription + curEvent.getDiscription());
-		} else if (avg > LOW_THREASHOLD) {
-			rvwRst.getDiscriptions().add(
-					midDescription + curEvent.getDiscription());
-		} else {
-			rvwRst.getDiscriptions().add(
-					lowDescription + curEvent.getDiscription());
 		}
+
+		return reviewResult;
 	}
 }
