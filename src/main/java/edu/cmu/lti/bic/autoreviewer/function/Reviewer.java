@@ -58,14 +58,14 @@ public class Reviewer {
 
 			if (tmpScore > HIGH_THREASHOLD) {
 				reviewResult
-						.addReviewSegment(engaged + eventDescription + "$$");
+						.addReviewSegment(engaged + eventDescription + "$");
 				engageSum++;
 			} else if (tmpScore < LOW_THREASHOLD) {
 				reviewResult.addReviewSegment(notEngaged + eventDescription
-						+ "$$");
+						+ "$");
 			} else {
 				reviewResult.addReviewSegment(mediocre + eventDescription
-						+ "$$");
+						+ "$");
 			}
 
 			reviewResult.setReviewScore(pData.getTotalEngagePercentage());

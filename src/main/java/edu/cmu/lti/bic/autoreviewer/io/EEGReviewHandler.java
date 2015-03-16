@@ -79,6 +79,7 @@ public class EEGReviewHandler implements Runnable {
 			DataOutputStream dos = new DataOutputStream(out);
 			String reviewResult = myResult.getReview();
 			System.out.println(reviewResult);
+			Thread.sleep(5000);
 			dos.writeChars(reviewResult);
 
 //			 SimpleDateFormat df = new
