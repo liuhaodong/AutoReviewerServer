@@ -22,16 +22,20 @@ public class ClassifiedData {
 
 	private int timeInterval;
 	private List<Boolean> engageResult;
+	
+	private List<Double> rawResult;
 
 	public ClassifiedData(String resultFilePath) {
 		this.timeInterval = ServerConfiguration.DEFAULT_TASK_INTERVAL;
 		engageResult = new ArrayList<Boolean>();
+		rawResult = new ArrayList<Double>();
 		this.buildResultList(resultFilePath);
 	}
 
 	public ClassifiedData(String resultFilePath, int customInterval) {
 		this.timeInterval = customInterval;
 		engageResult = new ArrayList<Boolean>();
+		rawResult = new ArrayList<Double>();
 		this.buildResultList(resultFilePath);
 	}
 
@@ -93,7 +97,7 @@ public class ClassifiedData {
 				lastLineIndex = lineIndex;
 
 				engageResult.add(lineResult);
-
+				rawResult.add(positiveProb);
 			}
 
 		} catch (FileNotFoundException e) {
@@ -103,6 +107,14 @@ public class ClassifiedData {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public int getTimeInterval(){
+		return this.timeInterval;
+	}
+	
+	public List<Double> getRawData(){
+		return this.rawResult;
 	}
 
 }

@@ -1,5 +1,6 @@
 package edu.cmu.lti.bic.autoreviewer.function;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,12 +11,6 @@ import edu.cmu.lti.bic.autoreviewer.datastructure.ClassifiedData;
 import edu.cmu.lti.bic.autoreviewer.datastructure.Event;
 import edu.cmu.lti.bic.autoreviewer.datastructure.ReviewResult;
 import edu.cmu.lti.bic.autoreviewer.datastructure.Timeline;
-
-/***
- * 
- * @author jhe
- *
- */
 
 public class Reviewer {
 	private Reviewer myReviewer;
@@ -43,9 +38,9 @@ public class Reviewer {
 
 		List<Event> timeLineEvents = pTimeline.getEvents();
 
-		String engaged = "The user was interested in the plot that: ";
-		String notEngaged = "The user was not interested in the plot that: ";
-		String mediocre = "The user didn't have strong feeling for the plot that: ";
+		String engaged = "This part is very atractive: ";
+		String notEngaged = "This part is boring: ";
+		String mediocre = "This part is just OK: ";
 
 		int engageSum = 0;
 
@@ -57,19 +52,19 @@ public class Reviewer {
 					eventEndTime);
 
 			if (tmpScore > HIGH_THREASHOLD) {
-				reviewResult
-						.addReviewSegment(engaged + eventDescription + "$");
+				reviewResult.addReviewSegment(engaged + eventDescription
+						+ " Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
 				engageSum++;
 			} else if (tmpScore < LOW_THREASHOLD) {
 				reviewResult.addReviewSegment(notEngaged + eventDescription
-						+ "$");
+						+ " Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
 			} else {
 				reviewResult.addReviewSegment(mediocre + eventDescription
-						+ "$");
+						+ " Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
 			}
 
 			reviewResult.setReviewScore(pData.getTotalEngagePercentage());
-
+			reviewResult.setClassifiedData(pData);
 		}
 
 		return reviewResult;

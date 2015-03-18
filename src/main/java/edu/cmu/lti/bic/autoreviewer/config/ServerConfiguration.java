@@ -34,7 +34,7 @@ public final class ServerConfiguration {
 			"SUBJECT_ID", "START_TIME", "END_TIME", "SENSOR", "ATTENTION",
 			"SIGQUAL", "RAWWAVE" };
 
-	public static final float DEFAULT_HIGH_VALUE = (float) 0.6;
+	public static final float DEFAULT_HIGH_VALUE = (float) 0.8;
 	public static final float DEFAULT_LOW_VALUE = (float) 0.3;
 	public static final int DEFAULT_WINDOW_SIZE = 10;
 

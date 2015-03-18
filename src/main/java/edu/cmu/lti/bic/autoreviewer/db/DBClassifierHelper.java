@@ -124,12 +124,12 @@ public class DBClassifierHelper {
 
 				if (i < ServerConfiguration.DEFAULT_REST_TIME
 						/ ServerConfiguration.DEFAULT_TASK_INTERVAL) {
-					line = machine + '\t' + "test" + '\t' + "stim" + '\t'
+					line = machine + '\t' + args.getSubjectName() + '\t' + "stim" + '\t'
 							+ "block" + '\t' + df.format(tmpStartDate) + '\t'
 							+ df.format(tmpEndDate) + '\t' + "3" + '\t' + "0\n";
 				} else {
 
-					line = machine + '\t' + "test" + '\t' + "stim" + '\t'
+					line = machine + '\t' + args.getSubjectName() + '\t' + "stim" + '\t'
 							+ "block" + '\t' + df.format(tmpStartDate) + '\t'
 							+ df.format(tmpEndDate) + '\t' + "0" + '\t' + "0\n";
 				}

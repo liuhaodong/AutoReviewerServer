@@ -53,6 +53,9 @@ public class EEGReviewHandler implements Runnable {
 
 	@Override
 	public final void run() {
+		
+		EEGReviewListener._mutex.lock();
+		
 		try {
 			BufferedReader inStream = new BufferedReader(new InputStreamReader(
 					this.socket.getInputStream()));
@@ -65,7 +68,7 @@ public class EEGReviewHandler implements Runnable {
 
 			tmpHelper.dbToCSV(argu);
 
-			// mClassifier.run(argu);
+			 mClassifier.run(argu);
 
 			ClassifiedData classifiedData = new ClassifiedData(
 					ServerConfiguration.DEFAULT_CLASSIFIED_DATA_PATH);
@@ -79,26 +82,8 @@ public class EEGReviewHandler implements Runnable {
 			DataOutputStream dos = new DataOutputStream(out);
 			String reviewResult = myResult.getReview();
 			System.out.println(reviewResult);
-			Thread.sleep(5000);
-			dos.writeChars(reviewResult);
-
-//			 SimpleDateFormat df = new
-//			 SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			 dos.writeUTF("Transformers#testUser#" + df.format(new Date())
-//			 + "#8.5#TRANSFORMERS: AGE OF EXTINCTION begins after an "
-//			 + "epic battle left a great city torn, but with the "
-//			 + "world saved. As humanity picks up the pieces, a"
-//			 + " shadowy group reveals itself in an attempt to"
-//			 + " control the direction of history...while an "
-//			 + "ancient, powerful new menace sets Earth in its"
-//			 + " crosshairs. With help from a new cast of humans"
-//			 + " (led by Mark Wahlberg), Optimus Prime and the"
-//			 + " Autobots rise to meet their most fearsome "
-//			 + "challenge yet. In an incredible adventure, "
-//			 + "they are swept up in a war of good and evil,"
-//			 + " ultimately leading to a climactic battle "
-//			 + "across the world. (C) Paramount");
-
+//			Thread.sleep(0);
+			dos.writeUTF(reviewResult);
 			// here stop
 
 			inStream.close();
@@ -114,6 +99,8 @@ public class EEGReviewHandler implements Runnable {
 			System.out.println("Input Format Wrong For Parsing");
 			e.printStackTrace();
 		}
+		
+		EEGReviewListener._mutex.unlock();
 	}
 
 	/***

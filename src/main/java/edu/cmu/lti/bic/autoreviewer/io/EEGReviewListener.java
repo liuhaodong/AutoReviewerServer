@@ -6,6 +6,10 @@ import java.net.Socket;
 
 import edu.cmu.lti.bic.autoreviewer.config.ServerConfiguration;
 
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /***
  * listener for review.
  * @author jhe
@@ -16,6 +20,8 @@ public class EEGReviewListener implements Runnable {
 	private int port;
 
 	private ServerSocket listener;
+	
+	public static final Lock _mutex = new ReentrantLock(true);
 	
 
 	/**
