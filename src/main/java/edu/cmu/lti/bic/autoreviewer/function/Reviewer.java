@@ -53,14 +53,14 @@ public class Reviewer {
 
 			if (tmpScore > HIGH_THREASHOLD) {
 				reviewResult.addReviewSegment(engaged + eventDescription
-						+ " Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
+						+ "-- Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
 				engageSum++;
 			} else if (tmpScore < LOW_THREASHOLD) {
 				reviewResult.addReviewSegment(notEngaged + eventDescription
-						+ " Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
+						+ "-- Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
 			} else {
 				reviewResult.addReviewSegment(mediocre + eventDescription
-						+ " Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
+						+ "-- Score: (" + new DecimalFormat("##.#").format(tmpScore * 10) + ")$");
 			}
 
 			reviewResult.setReviewScore(pData.getTotalEngagePercentage());
